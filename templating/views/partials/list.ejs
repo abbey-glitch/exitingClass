@@ -1,0 +1,7 @@
+<% const renderRadios = (value, name)=>{%>
+    <label for="<%= name %>"><%= value%></label>
+    <input type="radio" name="<%= name%>" value="<%= value%>" id="<%= value%><%= name%>">
+    <%}%>
+    <% for(let i=0; i<=5; i++){%>
+        <% renderRadios(i, "eventtarget")%>
+    <%}%>
