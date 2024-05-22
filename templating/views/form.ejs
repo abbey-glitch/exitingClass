@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="container">
+        <a href="/view-users">list all users</a>
+        <a href="/delete-user">Delete</a>
+        <form action="/loginroute" method="post" enctype="multipart/form-data">
+            <h3>login page</h3>
+            <div id="email">
+                <input type="email" name="email" placeholder="email" title="enter your email" id="">
+            </div>
+            <div id="password">
+                <input type="password" name="password" placeholder="password" title="enter your password" id="">
+            </div>
+            <div class="imgupload">
+                <input type="file" name="uploader" id="uploader" placeholder="upload image file">
+            </div>
+            <div id="controls">
+                <input type="submit" value="upload">
+                <input type="reset" value="Reset">
+            </div>
+            <h3>Sign Up To Create Account <a href="/register">Sign Up</a></h3>
+        </form>
+    </div>
+</body>
+</html>

@@ -2,6 +2,40 @@
     margin: 0;
     box-sizing: border-box;
 }
+:root{
+    --rm_underline: none;
+    --achor_color:black;
+    --achor_size:1.5rem;
+}
 #container{
     background-color: grey;
+    /* border:.2rem solid green; */
+    /* height:100vh; */
+}
+#container>header>nav{
+    display:grid;
+    grid-template-areas: "header header header header";
+    justify-content:space-around;
+    align-content: center;
+    align-items: center;
+    border: .2rem solid red;
+    padding: 1rem;
+}
+a{
+    text-decoration: var(--rm_underline);
+    color:var(--achor_color);
+    font-size: var(--achor_size);
+}
+nav>ul{
+    display: flex;
+    list-style-type: none;
+    gap:2rem;
+}
+.form_control>form>input[type="search"]{
+    outline: none;
+    padding: .5rem;
+    font-size: var(--achor_size);
+}
+.form_control, #logs, ul, figure{
+    border: .2rem solid green;
 }
