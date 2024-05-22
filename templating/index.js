@@ -71,7 +71,7 @@ server.post("/loginroute", uploads.single("uploader"), async(req, res)=>{
 })
 // view all data
 server.get("/view-users", async (req, res)=>{
-    const db = await client.db(database).collection(collection).find({_id: "664b32af926c1e0386ad7f7e"})
+    const db = await client.db(database).collection(collection).find().toArray()
     if(db){
         res.send({
             message:"data fetched successfully",
@@ -86,15 +86,65 @@ server.get("/homezone", (req, res)=>{
             message:"welcome"
         })
     }else{
-        res.send({
-            message:"please login"
-        })
+        res.redirect("/loginroute")
     }
 })
 // logout user
 server.get("/logout", (req, res)=>{
     req.session.destroy()
     res.redirect("/homezone")
+})
+// search user
+server.get("/search", async(req, res)=>{
+    const email = req.query.email
+    // const email = req.params.email
+    const db = await client.db(database).collection(collection).findOne({email:email})
+    console.log(email);
+    if(db){
+        res.send({
+            message:"user found",
+            data:db
+        })
+    }else{
+        res.send({
+            message:"user not found",
+            data:db
+        });
+    }
+    
+    
+})
+// delete user
+server.get("/delete-users", async(req, res)=>{
+    const db = await client.db(database).collection(collection).deleteMany()
+    if(db.deletedCount > 0){
+        res.send({
+            message:"deleted succesfully",
+            data:db
+        })
+    }else{
+        res.send({
+            message:"unable to delete"
+        })
+    }
+})
+// delete a single user
+server.get("/single-user", async(req, res)=>{
+    res.render("rmuser")
+})
+server.get("/remuser", async(req, res)=>{
+    const email = req.query.email
+    const db = await client.db(database).collection(collection).deleteOne({email:email})
+    if(db.deletedCount > 0){
+        res.send({
+            message:"user deleted successfully",
+            data:db
+        })
+    }else{
+        res.send({
+            message:"unable to delete user"
+        })
+    }
 })
 // set listen port
 const connect = process.env.PORT
