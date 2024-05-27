@@ -13,15 +13,15 @@ server.use(cors())
 server.use(bodyParser.urlencoded({extended:true}))
 const checkLogin = function(req, res, next){
     const Bearer_token = req.headers['authorization']
-    if(Bearer_token == null && typeof Bearer_token == " "){
-        res.json({
-            message: "authorize user",
+    if(Bearer_token == null && typeof Bearer_token == undefined){
+        res.send({
+            message: "unauthorize user",
             type: "user authorization error"
         })
     }else{
-        Bearer_token_box = Bearer_token.split()
+        Bearer_token_box = Bearer_token.split(" ")
         const token = Bearer_token_box[1]
-        req.headers = token
+        req.token = token
         next()
     }
 
@@ -45,15 +45,41 @@ server.post("/register", async(req, res)=>{
         }
        const secret = await bcrypt.hash(password, 20)
        // const verify = await bcrypt.compare("fred", secret)
-       res.send({
-        message: "registered successfully",
-        token:secret
-       });
+       jwt.sign(profile, "sigin", (error, token)=>{
+          if(error){
+            res.status(403).send({
+                message:"invalid user registration"
+            })
+          }
+          res.send({
+            message: "registered successfully",
+            hashkey:secret,
+            token:token
+           });
+       })
     }else{
         res.write("you have not enter anything")
         res.end()
     }
    
+})
+
+// login route
+server.post("/login", checkLogin, (req, res)=>{
+    // const{username, password} = req.body
+    // const verify = await bcrypt.compare(password, secret)
+    jwt.verify(req.token, "sigin", (error, user_data)=>{
+        if(error){
+            res.status(403).send({
+                message : "not an authorize user"
+            })
+        }
+        res.status(200).send({
+            message: "user login successfully",
+            data: user_data
+        })
+    })
+    
 })
 
 // create a listening port
